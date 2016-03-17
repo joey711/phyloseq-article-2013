@@ -1,7 +1,14 @@
-`r opts_chunk$set(cache=TRUE, fig.width=10)`
-<link href="markdown.css" rel="stylesheet"></link>
+---
+title: "Complete Source Code for 2013 phyloseq Manuscript"
+author: "mcmurdie@stanford.edu"
+date: "`r date()`"
+output: 
+  BiocStyle::html_document:
+    fig_height: 10
+    fig_width: 10
+    toc: yes
+---
 
-# Complete Source Code for 2013 phyloseq Manuscript
 
 This is an [R Markdown](http://www.rstudio.com/ide/docs/authoring/using_markdown) document creating the graphics in this manuscript. Markdown is a simple formatting syntax for authoring web pages. Try [RStudio](http://www.rstudio.com/) for writing and interpreting R Markdown documents.
 
@@ -17,6 +24,7 @@ packageVersion("ggplot2")
 packageVersion("scales")
 packageVersion("grid")
 packageVersion("knitr")
+packageVersion("BiocStyle")
 ```
 
 # Preprocess phyloseq data for plotting
@@ -152,7 +160,7 @@ plot_tree(gpsfb, "sampledodge", nodeplotboot(), "Order", "human", "abundance", t
 Yep, too many tips for display in the available space in the main plot of the manuscript. Consolidate the data for the tree into new object, called `tggpsfb`. First by agglomerating OTUs that are similar enough to have a patristic distance less than `0.1`. Second, merge samples that come from the same `SampleType` (environment), as we are mostly interested in comparing between environments, and we already know that the microbiome profiles from the same `SampleType` in this dataset are very similar relative to the between `SampleType` differences.
 
 ```{r}
-tggpsfb = tip_glom(gpsfb, NULL, 0.1)
+tggpsfb = tip_glom(gpsfb, 0.1)
 tggpsfb = merge_samples(tggpsfb, "SampleType")
 ```
 
